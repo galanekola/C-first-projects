@@ -45,6 +45,7 @@ void zadanie_1_2 ()//wyznacza sumę kwadratów kolejnych liczb naturalnych 02+12
 
 void zadanie_1_3 ()//wyznacza silnię liczby całkowitej, dodatniej n, przypomnijmy, że silnię danej liczby n oznaczamy przez n!, oraz, że 1!=1 oraz n!=1⋅2⋅…⋅n
 {
+    int suma = 1;
     cout <<"Podaj liczbe:";
     cin>>liczba;
     for (int i=1; i<=liczba; i++)
@@ -91,7 +92,7 @@ void zadanie_2_1 () //wyznacza maksimum liczb z ciągu n liczb całkowitych oraz
 
     }
     cout<<"Max ="<<max<<endl;
-    cout<<"Min+"<<min<<endl;
+    cout<<"Min"<<min<<endl;
     cout<<"Średnia ="<<srednia/rozmiar<<endl;
 }
 
@@ -163,6 +164,14 @@ void zadanie_sam_1 ()
 
     int przedostatni_wyraz= 1; //wyraz i w danym kroku, tutaj: wstepna wartosc tego wyrazu
     int przedprzedostatni_wyraz = 0; //wyraz i+1 w danym kroku, tutaj: wstepna wartosc tego wyrazu
+    if (n==0)
+    {
+        fib = 0;
+    }
+    if (n==1)
+    {
+        fib =1;
+    }
     for (int i=2; i<=n; i++)
     {
         fib = przedostatni_wyraz + przedprzedostatni_wyraz;
@@ -223,6 +232,7 @@ void zadanie_sam_4 ()//program który jest grą polegającą na zgadywaniu przez
     srand (time(NULL));
     int wylosowana_liczba;
     wylosowana_liczba = 1+rand()%(100);
+
 
     for (;;)
     {
@@ -456,10 +466,189 @@ void lab_3_zad_4 ()
             cout<<"Litera "<<znak<< "wystepuje"<<ilosc<<"razy"<<endl;
     }
 }
+float celcjusz_na_farenhajty (float a)
+{
+
+    return (((a*9)/5)+32);
+}
+float farenhajty_na_celcjusze (float a)
+{
+    return ((((a-32)*5)/9));
+}
+void zadanie4_1 () //Napisać program, który wykorzystuje dwie funkcje: cejsjusze_na_fahrenheity i fahrenheity_na_celsjusze (obie zwracają wartości typu float i mają jeden argument także typu float) do odpowiedzi na pytania:
+//W jakiej temperaturze (w skali Fahrenheita) zamarza woda, a w jakiej wrze?
+//Jaka temperatura (w skali Celsjusza) odpowiada temperaturze 0∘F i 100∘F w skali Fahrenheita?
+{
+    float a;
+    char wybor;
+    cout<<"1 - zamiana z F na C"<<endl;
+    cout<<"2 - zamiana z C na F"<<endl;
+    cin>>wybor;
+    cout<<"Podaj liczbe ktora chcesz zamienic"<<endl;
+    cin>>a;
+   switch (wybor)
+   {
+
+   case '1':
+    {
+       cout<<farenhajty_na_celcjusze(a)<<endl;
+        break;
+    }
+   case '2':
+    {
+        cout<<celcjusz_na_farenhajty (a)<<endl;
+
+        break;
+    }
+   }
+}
+void zadanie4_2() //Wykorzystując funkcję czy_pierwsza z przykładowego programu pierwszego, napisać program wyświetlający wszystkie liczby pierwsze z przedziału ⟨2,1000⟩ oraz wyznaczający ich ilość.
+{
+    int pierwsze = 0;
+    for (int i=2; i<=1000; i++)
+    {
+        int ilosc = 0;
+        for (int dzielnik=2; dzielnik<i; dzielnik++)
+        {
+            if (i%dzielnik == 0)
+            {
+                ilosc++;
+            }
+        }
+        if(ilosc == 0)
+        {
+            pierwsze++;
+        }
+    }
+    cout<<"ilosc liczb pierwwszych wynosi: "<<pierwsze<<endl;
+
+     double aproksymacja = 1000 / log(1000);
+    cout << "Aproksymacja ilości liczb pierwszych: " << aproksymacja << endl;
+    cout << "Różnica między ilością a aproksymacją: " << abs(pierwsze - aproksymacja) << endl;
+}
+
+int rekurencja_potega(int x, int n) //Za pomocą funkcji rekurencyjnej potega(int x,int n) wyznaczyć xn (liczby x i n podaje użytkownik, wskazówka: wykorzystaj rekurencyjną definicję potęgi: x0=1 oraz xn=xn−1⋅x dla n≥1
+{
+    if(n == 0)
+    {
+        return 1;
+    }
+    else return rekurencja_potega(x,n-1) * x;
+}
+
+void odgadywanie(string haslo,char znak,string &napis,int &ilosc_odslonietych)
+{
+    for (int i=0;i<haslo.length();i++)
+       if (haslo[i] == znak)
+       {
+           napis[i] = znak;
+           ilosc_odslonietych++;
+       }
+
+}
+
+
+void zadanie4_4() //Napisać program, który polega na zgadywaniu przez użytkownika hasła przechowywanego w zmiennej haslo typu string. Warunek zakończenia pętli: zgadnięcie hasła przez użytkownika.
+{
+    string haslo = "ola galanek";
+    string odgadywanie_hasla;
+    char znak;
+    int ile_odslonietych = 0;
+    odgadywanie_hasla = haslo;
+
+    for (int i=0; i<odgadywanie_hasla.length();i++)
+        if (haslo[i] != ' ')
+            odgadywanie_hasla[i]='*';
+
+         else
+            ile_odslonietych++;
+
+    while (ile_odslonietych < haslo.length())
+    {
+        system("cls");
+        cout<<odgadywanie_hasla<<endl;
+        cout<<"Podaj litere:";
+        cin>>znak;
+        odgadywanie (haslo,znak,odgadywanie_hasla, ile_odslonietych);
+    }
+     system("cls");
+  cout<<"HASLO: "<<haslo<<endl;
+  cout<<"Brawo!!! Haslo zostalo odgadniete."<<endl;
+  system("pause");
+}
+
+
+void odgadywanie2(string haslo,char znak,string &napis,int &ilosc_odslonietych, int &zysk)
+{
+    srand(time(NULL));
+    int losowanie;
+    losowanie = 1+rand()%100;
+
+    for (int i=0;i<haslo.length();i++)
+       if (haslo[i] == znak)
+       {
+           napis[i] = znak;
+           ilosc_odslonietych++;
+           if(losowanie<26)
+           {
+               zysk +=100;
+           }
+           if(losowanie>25 && losowanie<51)
+           {
+               zysk +=200;
+           }
+           if(losowanie>50 && losowanie<61)
+           {
+               zysk +=400;
+           }
+           if(losowanie>60)
+           {
+               zysk = 0;
+           }
+           cout<<"Obecny stan konta: "<<zysk<<endl;
+       }
+
+}
+
+
+void zadanie4_5() //Napisać program, który polega na zgadywaniu przez użytkownika hasła przechowywanego w zmiennej haslo typu string. Warunek zakończenia pętli: zgadnięcie hasła przez użytkownika.
+{
+    int zysk =0;
+    string haslo = "ola galanek";
+    string odgadywanie_hasla;
+    char znak;
+    int ile_odslonietych = 0;
+    odgadywanie_hasla = haslo;
+
+    for (int i=0; i<odgadywanie_hasla.length();i++)
+        if (haslo[i] != ' ')
+            odgadywanie_hasla[i]='*';
+
+         else
+            ile_odslonietych++;
+
+    while (ile_odslonietych < haslo.length())
+    {
+        system("cls");
+        cout<<odgadywanie_hasla<<endl;
+        cout<<"Obecny stan konta: "<<zysk<<endl;
+        cout<<"Podaj litere:";
+        cin>>znak;
+        odgadywanie2 (haslo,znak,odgadywanie_hasla, ile_odslonietych, zysk);
+    }
+     system("cls");
+  cout<<"HASLO: "<<haslo<<endl;
+  cout<<"Brawo!!! Haslo zostalo odgadniete."<<endl;
+  cout<<"Nagroda wynosi: "<<zysk<<endl;
+  system("pause");
+
+}
+
+
 
 int main()
 {
-    zadanie_sam_2();
+    zadanie4_5 ();
     return 0;
 }
 
