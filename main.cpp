@@ -969,9 +969,243 @@ void lab6_5() //Napisać program rozwiązujący problem Flawiusza dla k=2 (patrz
         }
 }
 
+void zamien(float* a, float* b)
+{
+     float tmp = *b;
+     *b = *a;
+     *a = tmp;
+
+}
+
+
+ void lab7_1() //Zadeklarować i zdefiniować funkcję void zamien(float* a, float* b) zamieniającą miejscami wartości przechowaywane w zmiennych a i b. W programie głównym pobrać od użytkownika dwie liczby typu float, a następnie za pomocą zdefiniowanej funkcji zamienić je miejscami i wyświetlić ich wartości po tej zamianie.
+//& adres w pamieci zmiennej //* wskazniki ktore potrzebuja adresu
+{
+    //zadeklaruj zmienne a i b typu float
+
+    system("cls"); //czyscimy ekran
+    float a = 9;
+    float b = 12;
+    cout<<"a="<<a<<", b="<<b<<endl;
+    zamien(&a,&b); //wywolaj zdefiniowana funkcje
+    cout<<"a="<<a<<", b="<<b<<endl;
+
+    system("PAUSE");
+}
+
+void zamien(float& a, float& b)
+{
+     float tmp = b;
+     b = a;
+     a = tmp;
+}
+
+
+ void lab7_1_1()
+//& adres w pamieci zmiennej //* wskazniki ktore potrzebuja adresu
+{
+    //zadeklaruj zmienne a i b typu float
+
+    system("cls"); //czyscimy ekran
+    float a = 9;
+    float b = 12;
+    cout<<"a="<<a<<", b="<<b<<endl;
+    zamien(a,b); //wywolaj zdefiniowana funkcje
+    cout<<"a="<<a<<", b="<<b<<endl;
+
+    system("PAUSE");
+}
+
+int maksimum(int *tab, int *n )
+{
+    int max = tab[0];
+    for (int i=0; i<*n; i++)
+    {
+      if (tab[i]>max)
+       max = tab[i];
+    }
+    return max;
+}
+
+int minimum (int *tab, int *n)
+{
+    int min = tab[0];
+    for (int i=0; i<*n; i++)
+    {
+      if (tab[i]<min)
+       min = tab[i];
+    }
+    return min;
+}
+
+float srednia_arytmetyczna (int *tab, int *n)
+{
+    float sr_artm;
+    float suma =0;
+    for (int i=0; i<*n; i++)
+    {
+        suma += tab[i];
+    }
+    sr_artm = suma/(*n);
+    return sr_artm;
+}
+
+int ile_mniejszych_od_sredniej (int *tab, int *n, float *sr_artm)
+{
+    float mniejsze = 0;
+    for (int i=0; i<*n; i++)
+    {
+        if (tab[i]<*sr_artm)
+            mniejsze++;
+    }
+    return mniejsze;
+}
+void lab7_2() //Zadeklarować i zdefiniować funkcje: int maksimum(int *tab,int n), int mainimum(int *tab,int n), float srednia_arytmetyczna(int *tab,int n) i int ile_mniejszych_od_sredniej(int *tab,int n), które odpowiednio: wyznaczają maksimum i minimum ciągu n-elementowego liczb całkowitych, średnią arytmetyczną wyrazów tego ciągu oraz ilość wyrazów mniejszych od średniej arytmetycznej. W programie głównym wczytać ilość wyrazów w ciągu, zarezerwować miejsce w pamięci na tablicę n-elementową, a następnie wyznaczyć rozstęp ciągu (różnica pomiędzy maksimum a minimum ciągu) oraz ilość wyrazów mniejszych od średniej arytmetycznej
+{
+    int n;
+    cout<<"Podaj ilosc wyrazow ciagu"<<endl;
+    cin>>n;
+    int wyraz;
+    int *tab = new int [n];
+    for (int i=0; i<n; i++)
+    {
+        cout<<"Podaj wyraz"<<endl;
+        cin>>wyraz;
+        tab[i]=wyraz;
+    }
+    cout<<"Najmniejszy wyraz ciagu wynosi: "<<minimum(tab, &n)<<endl;
+    cout<<"Najwiekszy wyraz ciagu wynosi: "<<maksimum(tab, &n)<<endl;
+    cout<<"Srednia arytmetyczna wynosi: "<<srednia_arytmetyczna(tab, &n)<<endl;
+    float sr_artm = srednia_arytmetyczna(tab, &n);
+    cout<<"Liczb mniejszych od sredniej arytmetycznych jest: "<<ile_mniejszych_od_sredniej(tab,&n,&sr_artm)<<endl;
+    delete [] tab; //bo uzylismy new int [n]
+}
+
+void wczytaj_macierz (float **M, int *m, int *n)
+{
+    for (int i=0; i<*m; i++)
+    {
+        for (int j=0; j<*n; j++)
+        {
+            cout<<"Wpisz liczbe do macierzy"<<endl;
+            float liczba;
+            cin>>liczba;
+            M[i][j]=liczba;
+        }
+    }
+}
+
+void pomnoz_przez_liczbe (float *x, float**M, int *m, int*n)
+{
+    for (int i=0; i<*m; i++)
+    {
+        for (int j=0; j<*n; j++)
+        {
+            M[i][j] *= *x;
+        }
+    }
+}
+
+void wyswietl_pomnozona_macierz (float**M, int *m, int*n)
+{
+    for (int i=0; i<*m; i++)
+    {
+        for (int j=0; j<*n; j++)
+        {
+            cout<<M[i][j];
+        }
+        cout<<endl;
+    }
+}
+
+bool dodaj_macierze (float **M1, float** M2, float**M, int *m1, int *n1, int *m2, int *n2, int *n, int *m)
+{
+    if (*m == *m1 && *m == *m2 && *n == *n1 && *n == *n2)
+    {
+        bool warunek = true;
+        for (int i=0; i<*m; i++)
+        {
+        for (int j=0; j<*n; j++)
+            {
+                M[i][j]+=M1[i][j];
+            }
+        }
+
+        wyswietl_pomnozona_macierz (M, m, n);
+        system("pause");
+        for (int i=0; i<*m; i++)
+            {
+                for (int j=0; j<*n; j++)
+                    {
+                        M2[i][j]+=M[i][j];
+                    }
+            }
+        wyswietl_pomnozona_macierz (M2, m2, n2);
+        return warunek;
+    }
+    else
+        return false;
+}
+void lab7_3() //apisać program, który zawiera cztery funkcje:void wczytaj_macierz(float** M,int m, int n) - pobiera od użytkownika elementy macierzy wymiaru m×n; w obu pętlach for wykorzystać wskaźniki void wyswietl_macierz(float** M,int m,int n) - wyświetla elementy macierzy M, w obu pętlach for wykorzystać wskaźniki void pomnoz_przez_liczbe(float x, float** M,int m,int n) - mnożenie macierzy M przez liczbę x bool dodaj_macierze(float** M1,float** M2,float** M3, int m1, int n1, int m2, int n2) - dodawanie macierzy, wynik zapisujemy w M3, funkcja zwraca true, jeśli można dane dwie macierze dodać i false, jeśli to niemożliwe (pierwsza macierz jest wymiaru m1×n1, a druga jest wymiaru m2×n2) Dopisać  funkcję bool pomnoz_macierze(float** M1, float** M2, float** M3, int m1, int n1, int m2, int n2), która wyznacza, o ile to możliwe, iloczyn macierzy M1 i M2 i wynik zapisuje w macierzy M3, jeśli działnie jest wykonalne funkcja zwraca true, a jeśli nie zwraca false. Usunąć zawartość programu głównego; w programie głównym wczytać wymiary macierzy A i B, zaalokować miejsce na te macierze, a następnie pobrać same macierze od użytkownika; zaalokować pamięć na wynik mnożenia macierzy A i B (nazwijmy ją C; jej wymiar to m1×n2); wyświetlić same macierze A i B jak i wynik C z odpowiednimi komentarzami.
+{
+    int m;
+    int n;
+    cout<<"Podaj liczbe wierszy: "<<endl;
+    cin>>m;
+    cout<<"Podaj liczbe kolumn: "<<endl;
+    cin>>n;
+    float **M = new float *[m];
+    for (int i=0; i<m; i++)
+        {
+            M[i]=new float [n];
+        }
+    wczytaj_macierz (M, &m, &n);
+    wyswietl_pomnozona_macierz (M, &m, &n);
+    int m1;
+    int n1;
+    cout<<"Podaj liczbe wierszy: "<<endl;
+    cin>>m1;
+    cout<<"Podaj liczbe kolumn: "<<endl;
+    cin>>n1;
+    float **M1 = new float *[m1];
+    for (int i=0; i<m1; i++)
+        {
+            M1[i]=new float [n1];
+        }
+    wczytaj_macierz(M1, &m1,&n1);
+    wyswietl_pomnozona_macierz (M1, &m1, &n1);
+
+    int m2;
+    int n2;
+    cout<<"Podaj liczbe wierszy: "<<endl;
+    cin>>m2;
+    cout<<"Podaj liczbe kolumn: "<<endl;
+    cin>>n2;
+    float **M2 = new float *[m2];
+    for (int i=0; i<m2; i++)
+        {
+            M2[i]=new float [n2];
+        }
+    wczytaj_macierz(M2, &m2,&n2);
+    wyswietl_pomnozona_macierz (M2, &m2, &n2);
+
+    cout<<"Wpisz liczbe przez ktora chcesz pomnozyc macierz 1:"<<endl;
+    float x;
+    cin>>x;
+
+    pomnoz_przez_liczbe(&x,M, &m, &n);
+    wyswietl_pomnozona_macierz (M, &m, &n);
+    dodaj_macierze (M1, M2, M, &m1, &n1, &m2, &n2, &n, &m);
+    cout << "Wyswietlam dodane macierze: "<<endl;
+    wyswietl_pomnozona_macierz (M2, &m2, &n2);
+
+delete [] M1;
+delete [] M;
+delete [] M2;
+}
 int main()
 {
-    lab6_5();
+    lab7_3();
     return 0;
 }
 
